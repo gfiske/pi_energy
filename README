@@ -1,0 +1,6 @@
+#Raspberry Pi Home Energy monitoring python code
+
+#gfiske March 2014
+
+Logs home energy data collected from a CurrentCost Energy meter to a MySQL database
+Everything runs on a Raspberry Pi machine 
