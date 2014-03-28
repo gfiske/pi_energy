@@ -10,20 +10,29 @@ try:
     import MySQLdb
     import gspread
     import base64
+    import ConfigParser
 except:
     print "Cannot import one or more module"
     sys.exit(1)
 
 ###############################################################
-email = 'amFtZXMuZGVub24uZW5lcmd5QGdtYWlsLmNvbQ=='.decode('base64')
-password = 'dGhpc2lzZm9yZW5lcmd5'.decode('base64')
+config = ConfigParser.RawConfigParser()
+config.read('/home/pi/gfiske.cfg')
+db_user = config.get('section1', 'db_user')
+db_passwd = config.get('section1', 'db_passwd')
+g_user = config.get('section1', 'g_user')
+g_passwd = config.get('section1', 'g_passwd')
+db_user = db_user.decode('base64','strict')
+db_passwd = db_passwd.decode('base64','strict')
+email = g_user.decode('base64','strict')
+password = g_passwd.decode('base64','strict')[0:15]
 spreadsheet_name = 'home_dials'
 ###############################################################
 #try to get the data and set it to local variables
 try:
 
     #get info from the building database
-    db = MySQLdb.connect("127.0.0.1", "root", 'cXdlcnR5MTYqNQ==\n'.decode('base64'), "energy")
+    db = MySQLdb.connect("127.0.0.1", db_user, db_passwd, "energy")
     # prepare a cursor object using cursor() method
     cursor = db.cursor()
     #do query
