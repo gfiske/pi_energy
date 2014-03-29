@@ -1,6 +1,17 @@
-#Raspberry Pi Home Energy monitoring python code
+#Raspberry Pi Home Energy monitoring
 
 #gfiske March 2014
 
-Logs home energy data collected from a CurrentCost Energy meter to a MySQL database
-Everything runs on a Raspberry Pi machine 
+Logs home energy data collected from a EnviR CurrentCost Energy meter to a MySQL database at 10-sec intervals
+
+Summarizes data every 30-second, hourly, daily, and monthly for display using Google Viz API
+
+https://googledrive.com/host/0Bz5_4a6W2d6JMm1GbnFpeHdQVms/Home_Energy/index.html
+https://googledrive.com/host/0Bz5_4a6W2d6JMm1GbnFpeHdQVms/Home_Energy/dials.html
+
+There is also simple error checking and system status reports/emails
+
+
+
+
+ 
