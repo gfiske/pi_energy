@@ -1,11 +1,7 @@
-#updates database trend1 table with data from Gregs CurrentCost meter
-#Greg Fiske Feb 2013
+#!/usr/bin/python
 
-#edited on 9/27/13 to include HVAC data
-#edited on 9/29/13 to run continuously for more accurate db logging results
-#edited on 11/2/13 to include try, except statements
-#edited on 1/20/14 to include the live dial updates and gspread
-#edited on 3/26/14 to include a better temperature default value and base64
+#updates database trend table with data from EnviR CurrentCost meter
+#Greg Fiske Feb 2013
 
 import serial,sys,MySQLdb
 import xml.etree.ElementTree as ET # for XML parsing
@@ -16,14 +12,13 @@ import gspread
 import base64
 import ConfigParser
 
+###############################################################
 config = ConfigParser.RawConfigParser()
 config.read('/home/pi/gfiske.cfg')
 db_user = config.get('section1', 'db_user')
 db_passwd = config.get('section1', 'db_passwd')
 g_user = config.get('section1', 'g_user')
 g_passwd = config.get('section1', 'g_passwd')
-
-###############################################################
 db_user = db_user.decode('base64','strict')
 db_passwd = db_passwd.decode('base64','strict')
 email = g_user.decode('base64','strict')
@@ -31,9 +26,16 @@ password = g_passwd.decode('base64','strict')[0:15]
 spreadsheet_name = 'home_dials'
 ###############################################################
 
-ser = serial.Serial(port='/dev/ttyUSB0',baudrate=57600)
-line = ser.readline()
-#print line
+try:
+    ser = serial.Serial(port='/dev/ttyUSB0',baudrate=57600)
+    line = ser.readline()
+except Exception,msg:
+    filename = "/home/pi/db_error_log.txt"
+    f = open(filename,"w")
+    f.write(msg)
+    f.write('/n')
+    f.close()
+
 #set up blank variables
 totalwatts = 0
 temp = 40
