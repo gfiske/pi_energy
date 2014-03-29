@@ -1,9 +1,10 @@
+#!/usr/bin/python
+
 #dial_data_to_google_spreadsheet2.py
 #Greg Fiske
-#This script writes the data from the pi mysql db to a google spreadsheet
-#it is minute level data written for google spreadsheet called home_dials
+#This script writes the data from the pi mysql db to a google spreadsheet for display using google vis api
+#https://googledrive.com/host/0Bz5_4a6W2d6JMm1GbnFpeHdQVms/Home_Energy/dials.html
 #Jan 2014
-#it's an update to version 1.  This version uses the gspread module
 
 # import the modules
 try:
