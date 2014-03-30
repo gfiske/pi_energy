@@ -8,6 +8,7 @@
 
 import MySQLdb
 import ConfigParser
+import time
 
 ###############################################################
 config = ConfigParser.RawConfigParser()
@@ -29,13 +30,29 @@ diff = myq[0]
 db.commit()
 
 # if the time delay is greater than 2 minutes, populate error table
-if int(diff) > -4 and int(diff) < -2:
+if int(diff) > -11 and int(diff) < -2:
     #it is an error
     myq2 = "insert into error values (DEFAULT, NOW(), 1);"
     cursor.execute(myq2)
     db.commit()
+# if the time delay is greater than 30 minutes, restart logging script
+elif int(diff) < -30:
+    os.system("python /home/pi/pi_energy/db_update_currentcost6.py &")
+    myq2 = "insert into error values (DEFAULT, NOW(), 1);"
+    cursor.execute(myq2)
+    db.commit()
+    filename = "/home/pi/db_error_log.txt"
+    f = open(filename,"r+")
+    f.readlines()
+    now = time.localtime(time.time())
+    curtime = time.asctime(now)
+    f.write("\n")
+    f.write(curtime + "\n")
+    f.write("Error greater than 30 minutes, restarted db_update_currentcost6" + "\n")
+    f.write("\n")
+    f.close()
+# if no time delay, do nothing, note no error to db
 else:
-    #it is not an error
     myq2 = "insert into error values (DEFAULT, NOW(), 0);"
     cursor.execute(myq2)
     db.commit()
