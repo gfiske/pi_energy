@@ -7,6 +7,7 @@ import MySQLdb
 import gdata.spreadsheet.service
 import base64
 import ConfigParser
+import time
 
 
 ###############################################################
@@ -69,5 +70,14 @@ dict['meanouttemp'] = meanouttemp
 entry = myspreadsheetclient.InsertRow(dict, spreadsheet_key, worksheet_id)
 if isinstance(entry, gdata.spreadsheet.SpreadsheetsList):
     print "Insert row succeeded."
-else:
+except Exception, msg:
     print "Insert row failed."
+    filename = "/home/pi/db_error_log.txt"
+    f = open(filename,"r+")
+    f.readlines()
+    now = time.localtime(time.time())
+    curtime = time.asctime(now)
+    f.write(curtime + "\n")
+    f.write("db_daily_stats5 error is : " + str(msg) + "\n")
+    f.write("\n")
+    f.close()
