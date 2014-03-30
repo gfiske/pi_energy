@@ -11,6 +11,8 @@ import time
 import gspread
 import base64
 import ConfigParser
+import time
+
 
 ###############################################################
 config = ConfigParser.RawConfigParser()
@@ -31,9 +33,13 @@ try:
     line = ser.readline()
 except Exception,msg:
     filename = "/home/pi/db_error_log.txt"
-    f = open(filename,"w")
-    f.write(msg)
-    f.write('/n')
+    f = open(filename,"r+")
+    f.readlines()
+    now = time.localtime(time.time())
+    curtime = time.asctime(now)
+    f.write(curtime + "\n")
+    f.write("The error is : " + str(msg) + "\n")
+    f.write("\n")
     f.close()
 
 #set up blank variables
@@ -63,6 +69,15 @@ def pullFromCurrentCost():
         except Exception, inst: # Catch XML errors (occasionally the current cost outputs malformed XML)
             sys.stderr.write("XML error: " + str(inst) + "\n")
             line2 = None
+            filename = "/home/pi/db_error_log.txt"
+            f = open(filename,"r+")
+            f.readlines()
+            now = time.localtime(time.time())
+            curtime = time.asctime(now)
+            f.write(curtime + "\n")
+            f.write("XML error : " + str(inst) + "\n")
+            #f.write("\n")
+            f.close()
 
     ser.flushInput()
     return temp, watts1, watts2, sensor
@@ -165,10 +180,14 @@ while True:
         worksheet.update_cell(2,3,str(hvac))
 
         #set in a rest period
-        time.sleep(5)
+        time.sleep(10)
     except Exception,msg:
         filename = "/home/pi/db_error_log.txt"
-        f = open(filename,"w")
-        f.write(msg)
-        f.write('/n')
+        f = open(filename,"r+")
+        f.readlines()
+        now = time.localtime(time.time())
+        curtime = time.asctime(now)
+        f.write(curtime + "\n")
+        f.write("The error is : " + str(msg) + "\n")
+        f.write("\n")
         f.close()
