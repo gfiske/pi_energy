@@ -6,6 +6,7 @@ import MySQLdb
 import  pywapi
 import string
 import ConfigParser
+import time
 
 #Get outside temp from weather.com or, even better, yahoo
 try:
@@ -42,10 +43,22 @@ hvac = str(round(myq[6],2))
 F = str(F)
 
 #################################
-# update frame table
-myquery = "insert into frame values (DEFAULT, NOW()," + temp + "," + wh + "," + oldpv + "," + newpv + "," + pv + "," + hvac + "," + F + ");"
-cursor = db.cursor()
-cursor.execute(myquery)
-#disconnect
-db.commit()
-db.close()
+try:
+    # update frame table
+    myquery = "insert into frame values (DEFAULT, NOW()," + temp + "," + wh + "," + oldpv + "," + newpv + "," + pv + "," + hvac + "," + F + ");"
+    cursor = db.cursor()
+    cursor.execute(myquery)
+    #disconnect
+    db.commit()
+    db.close()
+except Exception, msg:
+    print "Error"
+    filename = "/home/pi/db_error_log.txt"
+    f = open(filename,"r+")
+    f.readlines()
+    now = time.localtime(time.time())
+    curtime = time.asctime(now)
+    f.write(curtime + "\n")
+    f.write("db_hourly_stats5 error is : " + str(msg) + "\n")
+    f.write("\n")
+    f.close()
