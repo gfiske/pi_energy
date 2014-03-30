@@ -29,16 +29,16 @@ diff = myq[0]
 db.commit()
 
 # if the time delay is greater than 2 minutes, populate error table
-if int(diff) > -4 & int(diff) < -2:
-    offtime = 1
+if int(diff) > -4 and int(diff) < -2:
+    #it is an error
     myq2 = "insert into error values (DEFAULT, NOW(), 1);"
     cursor.execute(myq2)
     db.commit()
 else:
+    #it is not an error
     myq2 = "insert into error values (DEFAULT, NOW(), 0);"
     cursor.execute(myq2)
     db.commit()
-    offtime = 0
 db.close()
 
 

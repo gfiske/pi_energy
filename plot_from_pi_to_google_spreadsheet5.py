@@ -14,6 +14,7 @@ try:
     import gdata.spreadsheet.service
     import  pywapi
     import string
+    import ConfigParser
 except:
     print "Cannot import one or more module"
     sys.exit(1)

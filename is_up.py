@@ -25,10 +25,10 @@ response = os.system("ping -c 1 " + hostname)
 
 #and then check the response...
 if response == 0:
-  #print hostname, 'is up!'
+  #print 'is up!'
   pass
 else:
-  #print hostname, 'is down!'
+  #print 'is down!'
   os.system("sudo ifup eth0")
 
 #check for errors by running test_last_update.py
@@ -50,6 +50,5 @@ if errcode == 1:
     #myq2 = "insert into error values (DEFAULT, NOW(), 0);"
     #cursor.execute(myq2)
     #db.commit()
-else:
-    pass
+
 db.close()
