@@ -12,6 +12,7 @@ try:
     import gspread
     import base64
     import ConfigParser
+    import time
 except:
     print "Cannot import one or more module"
     sys.exit(1)
@@ -48,8 +49,17 @@ try:
     db.commit()
     db.close()
 
-except:
-    print "query failed"
+except Exception, msg:
+    print "Error" + str(msg)
+    filename = "/home/pi/db_error_log.txt"
+    f = open(filename,"r+")
+    f.readlines()
+    now = time.localtime(time.time())
+    curtime = time.asctime(now)
+    f.write(curtime + "\n")
+    f.write("dial_data_to_google_spreadsheet2 error is : " + str(msg) + "\n")
+    f.write("\n")
+    f.close()
 
 
 #enter the data into the google spreadsheet
