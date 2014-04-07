@@ -67,9 +67,10 @@ dict['meanouttemp'] = meanouttemp
 #print dict
 
 #enter the data into the google spreadsheet
-entry = myspreadsheetclient.InsertRow(dict, spreadsheet_key, worksheet_id)
-if isinstance(entry, gdata.spreadsheet.SpreadsheetsList):
-    print "Insert row succeeded."
+try:
+    entry = myspreadsheetclient.InsertRow(dict, spreadsheet_key, worksheet_id)
+    if isinstance(entry, gdata.spreadsheet.SpreadsheetsList):
+        print "Insert row succeeded."
 except Exception, msg:
     print "Insert row failed."
     filename = "/home/pi/db_error_log.txt"
