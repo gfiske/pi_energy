@@ -1,0 +1,1 @@
+select month(ts1),sum(watthours) / 1000 as 'usage', (sum(watthours) / 1000) * 0.21 as cost, sum(oldpv)/1000 as oldpv, sum(newpv)/1000 as enphase,sum(totalpv) / 1000 as 'total_pv', sum(hvac) / 1000 as 'hvac' from frame group by month(ts1) order by year(ts1), month(ts1);
