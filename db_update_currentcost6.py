@@ -38,7 +38,7 @@ except Exception,msg:
     now = time.localtime(time.time())
     curtime = time.asctime(now)
     f.write(curtime + "\n")
-    f.write("The error is : " + str(msg) + "\n")
+    f.write("Ser error: " + str(msg) + "\n")
     f.write("\n")
     f.close()
 
@@ -69,15 +69,15 @@ def pullFromCurrentCost():
         except Exception, inst: # Catch XML errors (occasionally the current cost outputs malformed XML)
             sys.stderr.write("XML error: " + str(inst) + "\n")
             line2 = None
-            filename = "/home/pi/db_error_log.txt"
-            f = open(filename,"r+")
-            f.readlines()
-            now = time.localtime(time.time())
-            curtime = time.asctime(now)
-            f.write(curtime + "\n")
-            f.write("XML error : " + str(inst) + "\n")
+            #filename = "/home/pi/db_error_log.txt"
+            #f = open(filename,"r+")
+            #f.readlines()
+            #now = time.localtime(time.time())
+            #curtime = time.asctime(now)
+            #f.write(curtime + "\n")
+            #f.write("XML error : " + str(inst) + "\n")
             #f.write("\n")
-            f.close()
+            #f.close()
 
     ser.flushInput()
     return temp, watts1, watts2, sensor
@@ -188,6 +188,6 @@ while True:
         now = time.localtime(time.time())
         curtime = time.asctime(now)
         f.write(curtime + "\n")
-        f.write("The error is : " + str(msg) + "\n")
+        f.write("The main function error is : " + str(msg) + "\n")
         f.write("\n")
         f.close()
