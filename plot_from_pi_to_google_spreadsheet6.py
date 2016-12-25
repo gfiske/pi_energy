@@ -99,5 +99,3 @@ g = gspread.authorize(credentials)
 worksheet = g.open('home_energy_from_pi').get_worksheet(0)
 worksheet.append_row(rowToAdd)
 
-#delete the oldest record
-#don't know how!
