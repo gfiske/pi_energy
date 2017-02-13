@@ -30,9 +30,29 @@ password = g_passwd.decode('base64','strict')[0:15]
 spreadsheet_name = 'Copy of home_dials new sheet'
 ###############################################################
 
+#Try to get outside temp from my outdoor sensor hooked to the GPIO board
+os.system('sudo modprobe w1-gpio')
+os.system('sudo modprobe w1-therm')
+temp_sensor = "/sys/bus/w1/devices/28-03164546d6ff/w1_slave"
+def temp_raw():
+    f = open(temp_sensor, 'r')
+    lines = f.readlines()
+    f.close()
+    return lines
+def read_temp():
+    lines = temp_raw()
+    temp_output = lines[1].find('t=')
+    temp_string = lines[1].strip()[temp_output+2:]
+    temp_c = float(temp_string) / 1000.0
+    temp_f = temp_c * 9.0 / 5.0 + 32.0
+    temp_f = round(temp_f, 2)
+    return str(temp_f) 
 
-#Get outside temp from weather.com or, even better, yahoo
 try:
+    F = read_temp()
+except:
+    #Get outside temp from weather.com or, even better, forcastio
+    F = 50
     #weather_com_result = pywapi.get_weather_from_weather_com('02536')
     #C = weather_com_result["current_conditions"]["temperature"]
     #yahoo_result = pywapi.get_weather_from_yahoo('02536')
@@ -42,8 +62,6 @@ try:
     current = forecast.currently()
     F = current.temperature    
     F = round(F,1)
-except:
-    F = 50.0
 
 #Get 1wire kitchen temperature
 file_name = os.path.join("/","mnt","1wire","28.ED548F050000","temperature")
