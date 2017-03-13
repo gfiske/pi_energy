@@ -63,7 +63,11 @@ try:
     db.close()
 
 except Exception, msg:
+<<<<<<< HEAD
     print "Error"
+=======
+    #print "Error"
+>>>>>>> b949f98382e3785e4f7eef9f3d6df1974118369c
     #filename = "/home/pi/db_error_log.txt"
     #f = open(filename,"r+")
     #f.readlines()
