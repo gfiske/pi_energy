@@ -4,10 +4,7 @@
 #This script writes the data from the pi mysql db to a google spreadsheet
 #It summarizes hourly data for display here:
 #https://googledrive.com/host/0Bz5_4a6W2d6JMm1GbnFpeHdQVms/Home_Energy/index.html
-<<<<<<< HEAD
 #https://storage.googleapis.com/gfiske.us/homeEnergy/dials.html
-=======
->>>>>>> b949f98382e3785e4f7eef9f3d6df1974118369c
 #Jan 2013
 #updated Jan 2015 to include tank temp data
 
@@ -31,7 +28,6 @@ except:
     print "Cannot import one or more module"
     sys.exit(1)
 
-<<<<<<< HEAD
 #Try to get outside temp from my outdoor sensor hooked to the GPIO board
 os.system('sudo modprobe w1-gpio')
 os.system('sudo modprobe w1-therm')
@@ -66,22 +62,6 @@ except:
     F = round(F,1)
 
 
-=======
-#Get outside temp from yahoo weather
-try:
-    #weather_com_result = pywapi.get_weather_from_weather_com('02536')
-    #C = weather_com_result["current_conditions"]["temperature"]    
-    #yahoo_result = pywapi.get_weather_from_yahoo('02536')
-    #C = yahoo_result["condition"]["temp"]
-    ##F = float(C)*(9.0/5.0) + 32
-    #darksky weather api
-    forecast = forecastio.load_forecast('72348bae4adf606ce385c7782fc681b4', 41.5982, -70.5927)
-    current = forecast.currently()
-    F = current.temperature    
-except:
-    F = 50.0
-    C = 0.0
->>>>>>> b949f98382e3785e4f7eef9f3d6df1974118369c
 
 ###############################################################
 config = ConfigParser.RawConfigParser()
