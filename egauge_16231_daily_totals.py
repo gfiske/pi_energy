@@ -62,8 +62,8 @@ except:
 
 db = MySQLdb.connect("127.0.0.1", db_user, db_passwd, "energy")
 try:
-    myq2 = "select avg(kitchTemp), min(outTemp), max(outTemp), avg(outTemp), avg(tankTemp), ((max(tankTemp)-min(tankTemp))*5421) from temperature where date(ts1) = date(now());"
     cursor = db.cursor()
+    myq2 = "select avg(kitchTemp), min(outTemp), max(outTemp), avg(outTemp), avg(tankTemp), ((max(tankTemp)-min(tankTemp))*5421) from temperature where date(ts1) = date(now());"
     cursor.execute(myq2)
     myq2 = cursor.fetchone()
     meankitchtemp = round(myq2[0],2)
@@ -72,9 +72,26 @@ try:
     meanouttemp = round(myq2[3],2)
     meantanktemp = round(myq2[4],2)
     tankbtus = round(myq2[5],2)
+    
+    #get max tank temp hour
+    myq_max = "select hour(ts1) as hour, max(tankTemp) as max from temperature where date(ts1) = date(now()) group by hour(ts1) order by max(tankTemp) asc limit 1;"
+    cursor.execute(myq_max)
+    myq_max = cursor.fetchone()
+    maxhour = myq_max[0]
+    #get min tank temp hour
+    myq_min = "select hour(ts1) as hour, max(tankTemp) as max from temperature where date(ts1) = date(now()) group by hour(ts1) order by max(tankTemp) desc limit 1;"
+    cursor.execute(myq_min)
+    myq_min = cursor.fetchone()
+    minhour = myq_min[0]    
 except:
     print "temperature query failed"
 
+db.commit()
+db.close()
+
+# determine if the tank gained or lost BTUs today
+if minhour < maxhour:
+    tankbtus = 0
 
 
 #########################################
