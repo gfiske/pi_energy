@@ -44,10 +44,10 @@ url = "http://" + eGauge + ".egaug.es/cgi-bin/egauge-show?m&n=2&s=1439&C"
 def pullFromDevice():
     # Parse the results
     tree = ET.parse(urllib.urlopen(url)).getroot()
-    net = ((int(tree[0][7][0].text)) * -1) * 0.00000027778
-    oldpv = abs(int(tree[0][7][1].text)) * 0.00000027778
-    hvac = int(tree[0][7][3].text) * 0.00000027778
-    enphase = abs(int(tree[0][7][4].text)) * 0.00000027778
+    net = ((int(tree[0][9][0].text)) * -1) * 0.00000027778
+    oldpv = abs(int(tree[0][9][1].text)) * 0.00000027778
+    hvac = int(tree[0][9][3].text) * 0.00000027778
+    enphase = abs(int(tree[0][9][4].text)) * 0.00000027778
     totalpv = oldpv + enphase
     return net,oldpv,enphase,totalpv,hvac
 
