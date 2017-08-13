@@ -81,15 +81,17 @@ file_object.close()
 
 
 #check to see if either temp sensor failed (reads 185).  If so, use previous value from database
+#also check to see if outtemp is the weirdly often collected 31.77.  If so, use previous value from database
 #connect to db
 try:
     db = MySQLdb.connect("127.0.0.1", db_user, db_passwd, "energy")
-    myq = "select kitchTemp, tankTemp from temperature order by ts1 desc limit 1;"
+    myq = "select kitchTemp, tankTemp, outTemp from temperature order by ts1 desc limit 1;"
     cursor = db.cursor()
     cursor.execute(myq)
     myq = cursor.fetchone()
     kitchTempdb = str(myq[0])
     tankTempdb = str(myq[1])
+    outTempdb = str(myq[2])
     db.close()
 except Exception, msg:
     print "can't access db"
@@ -106,6 +108,12 @@ if tankTemp == 185:
     tankTemp = str(tankTemp)
 else:
     tankTemp = str(tankTemp)
+
+if F == 31.77:
+    F = outTempdb
+    F = str(F)
+else:
+    F = str(F)
 
 F = str(F)
 
