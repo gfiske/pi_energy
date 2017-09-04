@@ -50,6 +50,7 @@ def read_temp():
 
 try:
     F = read_temp()
+    #print F
 except:
     #Get outside temp from weather.com or, even better, forcastio
     F = 50
@@ -81,7 +82,8 @@ file_object.close()
 
 
 #check to see if either temp sensor failed (reads 185).  If so, use previous value from database
-#also check to see if outtemp is the weirdly often collected 31.77.  If so, use previous value from database
+#also check to see if outtemp is the weirdly often collected 31.77 or 31.89.  If so, use previous value from database.
+
 #connect to db
 try:
     db = MySQLdb.connect("127.0.0.1", db_user, db_passwd, "energy")
@@ -109,7 +111,7 @@ if tankTemp == 185:
 else:
     tankTemp = str(tankTemp)
 
-if F == 31.77:
+if F == 31.77 or F == 31.89:
     F = outTempdb
     F = str(F)
 else:
