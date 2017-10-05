@@ -44,12 +44,13 @@ url = "http://" + eGauge + ".egaug.es/cgi-bin/egauge-show?m&n=2&s=1439&C"
 def pullFromDevice():
     # Parse the results
     tree = ET.parse(urllib.urlopen(url)).getroot()
-    net = ((int(tree[0][9][0].text)) * -1) * 0.00000027778
-    oldpv = abs(int(tree[0][9][1].text)) * 0.00000027778
-    hvac = int(tree[0][9][3].text) * 0.00000027778
-    enphase = abs(int(tree[0][9][4].text)) * 0.00000027778
+    net = ((int(tree[0][10][0].text)) * -1) * 0.00000027778
+    oldpv = abs(int(tree[0][10][1].text) * 0.00000027778)
+    hvac = abs(int(tree[0][10][3].text) * 0.00000027778)
+    enphase = abs(int(tree[0][10][4].text) * 0.00000027778)
+    ev = abs(int(tree[0][10][8].text) * 0.00000027778)
     totalpv = oldpv + enphase
-    return net,oldpv,enphase,totalpv,hvac
+    return net,oldpv,enphase,totalpv,hvac,ev
 
 try:
     data = pullFromDevice()
@@ -104,7 +105,7 @@ g = gspread.authorize(credentials)
     
 # first the daily energy spreadsheet
 try:
-    rowToAdd = (time.strftime('%m/%d/%Y'),str(round(data[0],2)),str(round(data[1],2)),str(round(data[2],2)),str(round(data[3],2)), str(round(data[4],2)), str(meanouttemp)) #date, net,oldpv,enphase,totalpv,hvac,meanouttemp                
+    rowToAdd = (time.strftime('%m/%d/%Y'),str(round(data[0],2)),str(round(data[1],2)),str(round(data[2],2)),str(round(data[3],2)), str(round(data[4],2)), str(meanouttemp), str(round(data[5],2))) #date, net,oldpv,enphase,totalpv,hvac,meanouttemp,ev                
     worksheet = g.open('daily_energy_from_pi').get_worksheet(0)
     worksheet.append_row(rowToAdd)
     print "...energy row add success"
